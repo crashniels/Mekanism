@@ -1,6 +1,5 @@
 package mekanism.api.gear;
 
-import mekanism.api.annotations.FieldsAreNonnullByDefault;
 import mekanism.api.annotations.NonNullSupplier;
 import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.api.providers.IItemProvider;
@@ -13,7 +12,6 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
 import net.minecraft.util.annotation.FieldsAreNonnullByDefault2;
 import net.minecraft.util.annotation.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

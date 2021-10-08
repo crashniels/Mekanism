@@ -31,7 +31,7 @@ public interface IModuleHelper {
      * @return A new item that should be registered during item registration.
      *
      * @apiNote This method specifically uses {@link IModuleDataProvider} rather than {@link java.util.function.Supplier<ModuleData>} to make it harder to accidentally
-     * have a {@code null} reference when using {@link net.minecraftforge.registries.DeferredRegister}s where both the {@link ModuleData} and the {@link Item} need
+     * have a {@code null} reference when using Registry's where both the {@link ModuleData} and the {@link Item} need
      * references of each other.
      */
     Item createModuleItem(IModuleDataProvider<?> moduleDataProvider, Item.Settings properties);
