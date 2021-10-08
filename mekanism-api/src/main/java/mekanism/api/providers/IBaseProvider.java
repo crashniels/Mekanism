@@ -4,6 +4,7 @@ import mekanism.api.text.IHasTextComponent;
 import mekanism.api.text.IHasTranslationKey;
 import mekanism.api.text.TextComponentUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public interface IBaseProvider extends IHasTextComponent, IHasTranslationKey {
 
@@ -18,7 +19,7 @@ public interface IBaseProvider extends IHasTextComponent, IHasTranslationKey {
      * Gets the "name" or "path" of the registry name.
      */
     default String getName() {
-        return getRegistryName().getString();
+        return getRegistryName().toString();
     }
 
     @Override

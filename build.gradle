@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT' apply false
+	id 'fabric-loom' version '0.9-SNAPSHOT' apply false
 	id 'maven-publish'
 	id "java-library"
 	id 'idea'
@@ -8,13 +8,13 @@ plugins {
 class Globals {
 	static def baseVersion = "1.0.0"
 	static def mcVersion = "1.17.1"
-	static def yarnVersion = "+build.29"
-	static def loaderVersion = "0.11.6"
+	static def yarnVersion = "+build.61"
+	static def loaderVersion = "0.12.1"
 	static def maven_group = "mekanism"
-	static def fabricVersion = "0.37.1+1.17"
-	static def clothConfigVersion = "5.0.34"
-	static def modMenuVersion = "2.0.0-beta.5"
-	static def wthitVersion = "3.5.0"
+	static def fabricVersion = "0.40.6+1.17"
+	static def clothConfigVersion = "6.0.39"
+	static def modMenuVersion = "2.0.14"
+	static def wthitVersion = "3.9.3"
 	static def ftlVersion = "0.4.1"
 	static def reiVersion = "6.0.249-alpha"
 }
@@ -119,6 +119,8 @@ allprojects {
 		//modApi include("dev.technici4n:FastTransferLib:${Globals.ftlVersion}", {
 		//	exclude group: "teamreborn"
 		//})
+
+		//To be replaced with TeamReborn Energy and official FabricAPI transfer Lib
 	}
 
 	configurations { dev }
@@ -129,14 +131,6 @@ allprojects {
 		maven { url "https://maven.shedaniel.me" }
 		maven { url "https://maven.terraformersmc.com/releases" }
 		maven { url "https://bai.jfrog.io/artifactory/maven" }
-		maven {
-			name = "Technici4n"
-			url = "https://raw.githubusercontent.com/Technici4n/Technici4n-maven/master/"
-			content {
-				includeGroup "dev.technici4n"
-				includeGroup "net.fabricmc.fabric-api" // until ItemApiLookup PR #1352 is merged.
-			}
-		}
 	}
 
 	jar {
