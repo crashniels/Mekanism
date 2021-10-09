@@ -1,14 +1,14 @@
 package mekanism.api.energy;
 
 import java.util.List;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.Action;
 import mekanism.api.IContentsListener;
+import mekanism.api.annotations.ParametersAreNonnullByDefault;
 import mekanism.api.inventory.AutomationType;
 import mekanism.api.math.FloatingLong;
-import net.minecraft.util.Direction;
+import net.minecraft.util.annotation.MethodsReturnNonnullByDefault;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

@@ -1,7 +1,7 @@
 package mekanism.api.gear;
 
 import mekanism.api.annotations.ParametersAreNonnullByDefault;
-import mekanism.api.energy.IEnergyContainer;
+//import mekanism.api.energy.IEnergyContainer;
 import mekanism.api.math.FloatingLong;
 import mekanism.api.text.IHasTextComponent;
 import net.minecraft.entity.LivingEntity;
@@ -87,7 +87,7 @@ public interface IModule<MODULE extends ICustomModule<MODULE>> {
      * @return Energy container or {@code null} if something failed.
      */
     @Nullable
-    IEnergyContainer getEnergyContainer();
+//    IEnergyContainer getEnergyContainer();
 
     /**
      * Helper to get the energy stored in {@link #getEnergyContainer()}.
@@ -133,7 +133,7 @@ public interface IModule<MODULE extends ICustomModule<MODULE>> {
      *
      * @apiNote This method is mostly for use in not having to lookup the energy container multiple times.
      */
-    boolean canUseEnergy(LivingEntity wearer, @Nullable IEnergyContainer energyContainer, FloatingLong energy, boolean ignoreCreative);
+//    boolean canUseEnergy(LivingEntity wearer, @Nullable IEnergyContainer energyContainer, FloatingLong energy, boolean ignoreCreative);
 
     /**
      * Helper to use energy from the item this module is installed on.
@@ -172,5 +172,5 @@ public interface IModule<MODULE extends ICustomModule<MODULE>> {
      *
      * @apiNote This method is mostly for use in not having to lookup the energy container multiple times.
      */
-    FloatingLong useEnergy(LivingEntity wearer, @Nullable IEnergyContainer energyContainer, FloatingLong energy, boolean freeCreative);
+//    FloatingLong useEnergy(LivingEntity wearer, @Nullable IEnergyContainer energyContainer, FloatingLong energy, boolean freeCreative);
 }

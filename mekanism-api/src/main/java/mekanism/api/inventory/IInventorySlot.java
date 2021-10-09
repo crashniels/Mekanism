@@ -1,16 +1,16 @@
 package mekanism.api.inventory;
 
+//import mekanism.api.Action;
 import mekanism.api.Action;
 import mekanism.api.IContentsListener;
 import mekanism.api.annotations.INBTSerializable;
 import mekanism.api.annotations.ParametersAreNonnullByDefault;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.annotation.MethodsReturnNonnullByDefault;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.Nullable;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -51,11 +51,8 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
      * <p>
      * Inserts an {@link ItemStack} into this {@link IInventorySlot} and return the remainder. The {@link ItemStack} <em>should not</em> be modified in this function!
      * </p>
-     * Note: This behaviour is subtly different from {@link net.minecraftforge.fluids.capability.IFluidHandler#fill(net.minecraftforge.fluids.FluidStack,
-     * net.minecraftforge.fluids.capability.IFluidHandler.FluidAction)}
      *
      * @param stack          {@link ItemStack} to insert. This must not be modified by the slot.
-     * @param action         The action to perform, either {@link Action#EXECUTE} or {@link Action#SIMULATE}
      * @param automationType The method that this slot is being interacted from.
      *
      * @return The remaining {@link ItemStack} that was not inserted (if the entire stack is accepted, then return an empty {@link ItemStack}). May be the same as the
@@ -75,9 +72,9 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
             return stack;
         }
         boolean sameType = false;
-        if (isEmpty() || (sameType = ItemHandlerHelper.canItemStacksStack(getStack(), stack))) {
+//        if (isEmpty() || (sameType = ItemHandlerHelper.canItemStacksStack(getStack(), stack))) {
+        if (isEmpty() || (sameType = ItemVariant.of(getStack()).matches(stack))) {
             int toAdd = Math.min(stack.getCount(), needed);
-            if (action.execute()) {
                 //If we want to actually insert the item, then update the current item
                 if (sameType) {
                     // Note: this also will mark that the contents changed
@@ -89,7 +86,6 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
                     ItemStack toSet = stack.copy();
                     toSet.setCount(toAdd);
                     setStack(toSet);
-                }
             }
             ItemStack remainder = stack.copy();
             remainder.setCount(stack.getCount() - toAdd);
@@ -103,7 +99,7 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
      * Extracts an {@link ItemStack} from this {@link IInventorySlot}.
      * <p>
      * The returned value must be empty if nothing is extracted, otherwise its stack size must be less than or equal to {@code amount} and {@link
-     * ItemStack#getMaxStackSize()}.
+     * ItemStack#getMaxCount()}.
      * </p>
      *
      * @param amount         Amount to extract (may be greater than the current stack's max limit)
@@ -125,7 +121,7 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
         ItemStack current = getStack();
         //Ensure that if this slot allows going past the max stack size of an item, that when extracting we don't act as if we have more than
         // the max stack size, as the JavaDoc for IItemHandler requires that the returned stack is not larger than its stack size
-        int currentAmount = Math.min(getCount(), current.getMaxStackSize());
+        int currentAmount = Math.min(getCount(), current.getMaxCount());
         if (currentAmount < amount) {
             //If we are trying to extract more than we have, just change it so that we are extracting it all
             amount = currentAmount;
@@ -143,8 +139,7 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
     }
 
     /**
-     * Retrieves the maximum stack size allowed to exist in this {@link IInventorySlot}. Unlike {@link IItemHandler#getSlotLimit(int)} this takes a stack that it can use
-     * for checking max stack size, if this {@link IInventorySlot} wants to respect the maximum stack size.
+     * Retrieves the maximum stack size allowed to exist in this {@link IInventorySlot}.
      *
      * @param stack The stack we want to know the limit for in case this {@link IInventorySlot} wants to obey the stack limit. If the empty stack is passed, then it
      *              returns the max amount of any item this slot can store.
@@ -157,7 +152,7 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
 
     /**
      * <p>
-     * This function re-implements the vanilla function {@link IInventory#canPlaceItem(int, ItemStack)}. It should be used instead of simulated insertions in cases where
+     * This function re-implements the vanilla function {@link net.minecraft.inventory.Inventory#isValid(int, ItemStack)}. It should be used instead of simulated insertions in cases where
      * the contents and state of the inventory are irrelevant, mainly for the purpose of automation and logic (for instance, testing if a minecart can wait to deposit its
      * items into a full inventory, or if the items in the minecart can never be placed into the inventory and should move on).
      * </p>
@@ -210,7 +205,7 @@ public interface IInventorySlot extends INBTSerializable<NbtCompound>, IContents
         if (amount > maxStackSize) {
             amount = maxStackSize;
         }
-        if (stack.getCount() == amount || action.simulate()) {
+        if (stack.getCount() == amount) {
             //If our size is not changing or we are only simulating the change, don't do anything
             return amount;
         }

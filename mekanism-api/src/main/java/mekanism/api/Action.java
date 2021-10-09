@@ -20,7 +20,10 @@ public enum Action {
     }
 
     /**
-     * @return {@code true} if this action represents simulation.
+     * @return {@code true} if this action represent abort in Fabric.
+     *
+     * A simulation isn't seen nicely here and should rarely be used.
+     *
      */
     public boolean simulate() {
         return this == SIMULATE;
@@ -29,7 +32,7 @@ public enum Action {
     /**
      * Converts this action to the corresponding FluidAction.
      */
-    public FluidAction toFluidAction() {
+    public TransactionContext.Result toFluidAction() {
         return fluidAction;
     }
 
@@ -62,10 +65,10 @@ public enum Action {
      *
      * @return Action.
      */
-    public static Action fromFluidAction(FluidAction action) {
-        if (action == FluidAction.EXECUTE) {
+    public static Action fromFluidAction(TransactionContext.Result action) {
+        if (action == TransactionContext.Result.COMMITTED) {
             return EXECUTE;
-        } //else FluidAction.SIMULATE
+        }
         return SIMULATE;
     }
 }
